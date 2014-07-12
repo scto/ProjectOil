@@ -1,18 +1,24 @@
 package com.raysgame.projecoil;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class GameScreen implements Screen{
 	private ProjectOil games;
+	OrthographicCamera camera;
 	
 	public GameScreen(ProjectOil _games) {
 		this.games = _games;
+		
+		//設定鏡頭
+		camera = new OrthographicCamera();
+		camera.setToOrtho(true, 1920, 1080);    //設定一個1920x1080的鏡頭，並且縮小會自動拉申，不會失真
+		
 	}
 
 	@Override
 	public void render(float delta) {
-		// TODO Auto-generated method stub
-		
+		camera.update();    //60fps 速率更新鏡頭
 	}
 
 	@Override
