@@ -8,6 +8,7 @@ public class ProjectOil extends Game{
 
 	@Override
 	public void create() {
+		Assets.load();    //讀取assets檔案
 		gameScreen = new GameScreen(this);
 		setScreen(gameScreen);    //設定目前畫面
 	}

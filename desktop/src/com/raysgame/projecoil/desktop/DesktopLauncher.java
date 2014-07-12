@@ -9,8 +9,8 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Project Oil";    //標題
 		config.useGL30 = true;
-		config.width = 800;
-		config.height = 600;
+		config.width = 960;
+		config.height = 544;
 		config.resizable = false;
 		new LwjglApplication(new ProjectOil(), config);
 	}
