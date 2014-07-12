@@ -16,39 +16,32 @@ public class GameScreen implements Screen{
 	}
 
 	@Override
-	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void show() {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+    //給 Android 和 iOS 使用，以防使用者跳出App外面
 	@Override
-	public void hide() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-		
+	public void pause() {	
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
-		
 	}
+    //===========
 
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
 		
 	}
+	
+    //沒有使用
+	@Override
+	public void hide() {}
+	
+	@Override
+	public void resize(int width, int height) {}
 
 }
