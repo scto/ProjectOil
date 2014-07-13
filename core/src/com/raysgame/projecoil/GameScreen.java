@@ -6,12 +6,17 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 
 public class GameScreen implements Screen{
 	ProjectOil games;
 	OrthographicCamera camera;
 	SpriteBatch batch;
+	Rectangle screenBounds;
     int characterX, characterY;
+    final float speed = 6;
+    
+    AirPlane airPlane; 
 	
 	public GameScreen(ProjectOil _games) {
 		this.games = _games;
@@ -22,9 +27,13 @@ public class GameScreen implements Screen{
 		//true 是為了翻轉座標系統 libGDX 用的跟一般數學是一樣的，所以要翻轉
 		
 		batch = new SpriteBatch();    //For Image Rendering
-		characterX = 960 - 64;    //一開始的X軸位置
-		characterY = 540;
 		
+		//取得螢幕邊界
+		screenBounds = new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		//System.out.println("graphics Width: " +screenBounds.width);
+		//System.out.println("graphics height: " +screenBounds.height);
+		
+		airPlane = new AirPlane(960 - 64, 540);
 	}
 
 	@Override
@@ -38,23 +47,40 @@ public class GameScreen implements Screen{
 		batch.begin();
 		//Rendering Code Here
 		batch.draw(Assets.spriteBackgound, 0, 0);
-		batch.draw(Assets.spriteAirPlane, characterX, characterY);
+		batch.draw(airPlane.image, airPlane.bound.x , airPlane.bound.y);
 		batch.end();
 	}
 
 	public void generalUpdate() {
+		
+		//移動判斷
 		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
-		    characterX -= 5;	
+			airPlane.bound.x -= speed;	
 		} 
 		else if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
-			characterX += 5;
+			airPlane.bound.x += speed;
 		}
 		if (Gdx.input.isKeyPressed(Keys.UP)) {
-			characterY -= 5;
+			airPlane.bound.y -= speed;
 		}
 		else if (Gdx.input.isKeyPressed(Keys.DOWN)) {
-			characterY += 5;
+			airPlane.bound.y += speed;
 		}
+		
+		if (airPlane.bound.x < 0) {
+			airPlane.bound.x = 0;
+		}
+		if (airPlane.bound.y < 0) {
+			airPlane.bound.y = 0;
+		}
+		
+		if ((airPlane.bound.x + airPlane.bound.getWidth()) > 1920) {
+			airPlane.bound.x = 1919 - airPlane.bound.getWidth();
+		}
+		if ((airPlane.bound.y + airPlane.bound.getHeight()) > 1080) {
+			airPlane.bound.y = 1079 - airPlane.bound.getHeight();
+		}
+
 	}
 	
 	@Override
