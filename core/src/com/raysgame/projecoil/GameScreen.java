@@ -15,7 +15,7 @@ public class GameScreen implements Screen{
 	Rectangle screenBounds;
     int characterX, characterY;
     final float speed = 6;
-    
+    float stateTime;    //動畫重要
     AirPlane airPlane; 
 	
 	public GameScreen(ProjectOil _games) {
@@ -34,13 +34,14 @@ public class GameScreen implements Screen{
 		//System.out.println("graphics height: " +screenBounds.height);
 		
 		airPlane = new AirPlane(960 - 64, 540);
+		stateTime = 0f;    //還是不知為何要設這個
 	}
 
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0.95F, 0.95F, 0.95F, 0.95F);    //test for rendering background color
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);    //畫布之類的吧
-		
+		stateTime += Gdx.graphics.getDeltaTime();    //應該取得螢幕刷新時間?
 		camera.update();    //60fps 速率更新鏡頭
 		batch.setProjectionMatrix(camera.combined);    //遊戲視窗內圖片大小縮放
 		generalUpdate();    //控制移動
@@ -66,7 +67,11 @@ public class GameScreen implements Screen{
 		else if (Gdx.input.isKeyPressed(Keys.DOWN)) {
 			airPlane.bound.y += speed;
 		}
+		if (Gdx.input.isKeyPressed(Keys.SPACE)) {
 		
+		}
+		
+		//牆壁
 		if (airPlane.bound.x < 0) {
 			airPlane.bound.x = 0;
 		}
