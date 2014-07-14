@@ -8,7 +8,7 @@ import com.raysgame.projecoil.ProjectOil;
 import com.raysgame.projecoil.TextureManager;
 
 public class EntityManager {
-    //控制畫面上的怪物
+    //控制畫面上的實體
 	private final Array<Entity> entities = new Array<Entity>();
 	private Player player;
 	
@@ -44,5 +44,19 @@ public class EntityManager {
 	
 	public Player getPlayer() {
 		return player;
+	}
+	
+	private Array<Enemy1> getEnemies() {
+		Array<Enemy1> ret = new Array<Enemy1>();
+		for (Entity e : entities) {
+			if (e instanceof Enemy1) {
+				ret.add((Enemy1)e);
+			}
+		}
+		return ret;
+	}
+	
+	public boolean gameOver() {
+		return getEnemies().size <= 0;
 	}
 }
