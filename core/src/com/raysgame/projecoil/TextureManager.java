@@ -9,5 +9,6 @@ public class TextureManager {
 	public static Texture textureAirPlane = new Texture(Gdx.files.internal("data/airplane_template.png"));
 	public static Texture bulletSheet = new Texture(Gdx.files.internal("data/bullets.png"));
 	public static Texture textureBackground = new Texture(Gdx.files.internal("data/sky.png"));
+	public static Texture enemy1 = new Texture(Gdx.files.internal("data/enemy1.png"));
 	
 }

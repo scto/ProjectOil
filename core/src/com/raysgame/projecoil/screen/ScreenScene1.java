@@ -3,37 +3,30 @@ package com.raysgame.projecoil.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.raysgame.projecoil.Assets;
-import com.raysgame.projecoil.entity.Player;
+import com.raysgame.projecoil.ProjectOil;
+import com.raysgame.projecoil.entity.EntityManager;
 
 public class ScreenScene1 extends Screen{
 	OrthographicCamera camera;
 	SpriteBatch batch;
-	Rectangle screenBounds;
-    int characterX, characterY;
     final float speed = 6;
     float stateTime;    //動畫重要
-    //AirPlane airPlane; 
-    private Player player;
+    private EntityManager entitymanager;
     
 	@Override
 	public void create() {
 		//設定鏡頭
 		camera = new OrthographicCamera();
-		camera.setToOrtho(true, 1920, 1080);    //設定一個1920x1080的鏡頭，並且縮小會自動拉申，不會失真
+		camera.setToOrtho(true, ProjectOil.CAMERA_WIDTH, ProjectOil.CAMERA_HEIGHT);    //設定一個1920x1080的鏡頭，並且縮小會自動拉申，不會失真
 		//true 是為了翻轉座標系統 libGDX 用的跟一般數學是一樣的，所以要翻轉
 		
 		batch = new SpriteBatch();    //For Image Rendering
 		
-		//取得螢幕邊界
-		screenBounds = new Rectangle(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		//System.out.println("graphics Width: " +screenBounds.width);
 		//System.out.println("graphics height: " +screenBounds.height);
-		
-		//airPlane = new AirPlane(960 - 64, 540);
-		player = new Player(new Vector2(960 - 64, 540), new Vector2(0, 0));    //新增主角飛機
+
+		entitymanager = new EntityManager(10);    //括弧數量 => 敵人數
 		stateTime = 0f;    //還是不知為何要設這個
 	}
 
@@ -46,28 +39,28 @@ public class ScreenScene1 extends Screen{
 		batch.begin();
 		//Rendering Code Here
 		batch.draw(Assets.spriteBackgound, 0, 0);
-		player.render(batch);
+		entitymanager.render(batch);
 		batch.end();
 	}
 	
 	public void generalUpdate() {
 		//牆壁
-		if (player.getPosition().x < 0) {
+		if (entitymanager.getPlayer().getPosition().x < 0) {
 			//System.out.println("Left!!");
-			player.setDirection2(0, player.getPosition().y);
+			entitymanager.getPlayer().setDirection2(0, entitymanager.getPlayer().getPosition().y);
 		}
-		if (player.getPosition().y < 0) {
+		if (entitymanager.getPlayer().getPosition().y < 0) {
 			//System.out.println("Top!!");
-			player.setDirection2(player.getPosition().x, 0);
+			entitymanager.getPlayer().setDirection2(entitymanager.getPlayer().getPosition().x, 0);
 		}
 		
-		if ((player.getPosition().x + player.getBound().getWidth()) > 1920) {
+		if ((entitymanager.getPlayer().getPosition().x + entitymanager.getPlayer().getBound().getWidth()) > ProjectOil.CAMERA_WIDTH) {
 			//System.out.println("Right!!");
-			player.setDirection2(1919 - player.getBound().getWidth(), player.getPosition().y);
+			entitymanager.getPlayer().setDirection2(ProjectOil.CAMERA_WIDTH - entitymanager.getPlayer().getBound().getWidth(), entitymanager.getPlayer().getPosition().y);
 		}
-		if ((player.getPosition().y + player.getBound().getHeight()) > 1080) {
+		if ((entitymanager.getPlayer().getPosition().y + entitymanager.getPlayer().getBound().getHeight()) > ProjectOil.CAMERA_HEIGHT) {
 			//System.out.println("Bottom!!");
-			player.setDirection2(player.getPosition().x , 1079 - player.getBound().getHeight());
+			entitymanager.getPlayer().setDirection2(entitymanager.getPlayer().getPosition().x , ProjectOil.CAMERA_HEIGHT - entitymanager.getPlayer().getBound().getHeight());
 		}
 	}
 
@@ -90,7 +83,7 @@ public class ScreenScene1 extends Screen{
 	@Override
 	public void update() {
 		camera.update();
-		player.update();
+		entitymanager.update();
 	}
 
 }

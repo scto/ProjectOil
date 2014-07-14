@@ -8,6 +8,8 @@ import com.raysgame.projecoil.screen.ScreenManager;
 import com.raysgame.projecoil.screen.ScreenScene1;
 
 public class ProjectOil implements ApplicationListener{
+	public static int CAMERA_WIDTH = 1920;
+    public static int CAMERA_HEIGHT = 1080;
     private SpriteBatch batch;
 	@Override
 	public void create() {
