@@ -13,7 +13,7 @@ public class EntityManager {
 	private Player player;
 	
 	public EntityManager(int amount) {
-		player = new Player(new Vector2(960 - 64, 540), new Vector2(0, 0));
+		player = new Player(new Vector2(960 - 64, 540), new Vector2(0, 0), this);
 		for (int i=0; i<amount; i++) {
 			//為了讓怪物符合上下螢幕出現
 			float y = MathUtils.random(0, ProjectOil.CAMERA_HEIGHT - TextureManager.enemy1.getHeight());
@@ -33,7 +33,12 @@ public class EntityManager {
 	
 	public void render(SpriteBatch batch) {
 		for (Entity e : entities) {
-			e.render(batch);
+			if (e instanceof Bullet) {
+			    e.renderAnimation(batch);	
+			}
+			else {
+				e.render(batch);	
+			}
 		}
 		player.render(batch);
 	}

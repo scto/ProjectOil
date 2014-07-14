@@ -7,9 +7,12 @@ import com.raysgame.projecoil.TextureManager;
 
 public class Player extends Entity{
     public int speed = 6;
+    private EntityManager entityManager;
+    private long lastFire;
     
-	public Player(Vector2 pos, Vector2 direction) {
+	public Player(Vector2 pos, Vector2 direction, EntityManager entityManager) {
 		super(TextureManager.textureAirPlane, pos, direction);
+		this.entityManager = entityManager;
 	}
 
 	@Override
@@ -29,6 +32,14 @@ public class Player extends Entity{
 			pos.y += speed;
 		} 
 		
+		if (Gdx.input.isKeyPressed(Keys.SPACE)) {
+			if (System.currentTimeMillis() - lastFire > 250) {
+				entityManager.addEntity(new Bullet(pos.cpy().add((TextureManager.textureAirPlane.getWidth()), (TextureManager.textureAirPlane.getHeight()/2))));
+				lastFire = System.currentTimeMillis();
+			}
+		}
+		
+		//變速
 		if (Gdx.input.isKeyPressed(Keys.NUM_1)) {
 			this.speed = 3;
 		}

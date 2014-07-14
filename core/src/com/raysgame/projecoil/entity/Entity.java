@@ -2,8 +2,10 @@ package com.raysgame.projecoil.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -14,6 +16,12 @@ public abstract class Entity {
 	protected Sprite sprite;
 	protected Rectangle bound;
 	
+	protected TextureRegion[] sheet_frames;
+	protected TextureRegion current_frame;
+	protected Animation loading_animation;
+	private int row, col, width, height;
+	private float stateTime;
+	
     public Entity(Texture texture, Vector2 pos, Vector2 direction) {
     	this.texture = texture;
     	this.pos = pos;
@@ -23,10 +31,32 @@ public abstract class Entity {
     	this.bound = new Rectangle(pos.x, pos.y, texture.getWidth(), texture.getHeight());
     }
     
+    //動畫使用
+    public Entity(Texture texture, int row, int col, int width, int height, Vector2 pos, Vector2 direction) {
+    	this.texture = texture;
+    	this.row = row;
+    	this.col = col;
+    	this.width = width;
+    	this.height = height;
+    	this.pos = pos;
+    	this.direction = direction; 
+    	this.sprite = new Sprite(this.texture);
+    	this.sprite.flip(false, true);
+    	this.bound = new Rectangle(pos.x, pos.y, texture.getWidth(), texture.getHeight());
+    	loadAnimation();
+    	this.stateTime = 0f;
+    }
+    
     public abstract void update();
     
     public void render(SpriteBatch spriteBatch) { 
     	spriteBatch.draw(sprite, pos.x, pos.y);
+    }
+    
+    public void renderAnimation(SpriteBatch spriteBatch) { 
+    	stateTime += Gdx.graphics.getDeltaTime();
+    	current_frame = loading_animation.getKeyFrame(stateTime, true);
+    	spriteBatch.draw(current_frame, pos.x, pos.y);
     }
     
     public Rectangle getBound() {
@@ -47,6 +77,25 @@ public abstract class Entity {
     public void setDirection2(float x, float y) {
     	pos.x = x;
     	pos.y = y;
+    }
+    
+    private void loadAnimation() {
+    	int total_frame = row*col;
+    	TextureRegion[][] temp = TextureRegion.split(texture, width, height);    //[row][col]
+    	sheet_frames = new TextureRegion[total_frame];
+    	int index = 0;
+    	System.out.println("totol_frame: " +total_frame +"\n sheet_frames:" +sheet_frames.length);
+    	//col
+    	for(int i=0; i<row; i++) {
+    		//row
+    		for (int j=0; j<col; j++) {
+    			sheet_frames[index++] = temp[j][i];
+    		}
+    	}
+    	for (int i=0; i<index; i++) {
+    		sheet_frames[i].flip(false, true);
+    	}
+    	loading_animation = new Animation(0.07f, sheet_frames);
     }
     
 }
