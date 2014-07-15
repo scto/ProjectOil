@@ -3,6 +3,7 @@ package com.raysgame.projecoil.entity;
  import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2; 
+import com.raysgame.projecoil.SoundManager;
 import com.raysgame.projecoil.TextureManager;
 
 public class Player extends Entity{
@@ -34,6 +35,7 @@ public class Player extends Entity{
 		
 		if (Gdx.input.isKeyPressed(Keys.SPACE)) {
 			if (System.currentTimeMillis() - lastFire > 250) {
+				SoundManager.shoot.play();
 				entityManager.addEntity(new Bullet(pos.cpy().add((TextureManager.textureAirPlane.getWidth()), (TextureManager.textureAirPlane.getHeight()/2))));
 				lastFire = System.currentTimeMillis();
 			}

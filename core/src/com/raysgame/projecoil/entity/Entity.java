@@ -84,7 +84,7 @@ public abstract class Entity {
     	TextureRegion[][] temp = TextureRegion.split(texture, width, height);    //[row][col]
     	sheet_frames = new TextureRegion[total_frame];
     	int index = 0;
-    	System.out.println("totol_frame: " +total_frame +"\n sheet_frames:" +sheet_frames.length);
+    	//System.out.println("totol_frame: " +total_frame +"\n sheet_frames:" +sheet_frames.length);
     	//col
     	for(int i=0; i<row; i++) {
     		//row
