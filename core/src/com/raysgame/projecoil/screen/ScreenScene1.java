@@ -5,13 +5,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.raysgame.projecoil.Assets;
 import com.raysgame.projecoil.ProjectOil;
+import com.raysgame.projecoil.SoundManager;
 import com.raysgame.projecoil.entity.EntityManager;
 
 public class ScreenScene1 extends Screen{
 	OrthographicCamera camera;
 	SpriteBatch batch;
-    final float speed = 6;
-    float stateTime;    //動畫重要
     private EntityManager entitymanager;
     
 	@Override
@@ -27,12 +26,11 @@ public class ScreenScene1 extends Screen{
 		//System.out.println("graphics height: " +screenBounds.height);
 
 		entitymanager = new EntityManager(10);    //括弧數量 => 敵人數
-		stateTime = 0f;    //還是不知為何要設這個
+		SoundManager.bgm1.loop();    //播放BGM
 	}
 
 	@Override
 	public void render(SpriteBatch sb) {
-		stateTime += Gdx.graphics.getDeltaTime();    //應該取得螢幕刷新時間?
 		camera.update();    //60fps 速率更新鏡頭
 		batch.setProjectionMatrix(camera.combined);    //遊戲視窗內圖片大小縮放
 		generalUpdate();    //控制移動
