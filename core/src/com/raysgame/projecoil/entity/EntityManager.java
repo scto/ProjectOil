@@ -28,7 +28,15 @@ public class EntityManager {
 		for (Entity e : entities) {
 			e.update();
 		}
+		//子彈到盡頭檢查
+		for (Bullet b : getBullet()) {
+			if (b.checkEnd()) {
+				//System.out.println("Bullet End");
+				entities.removeValue(b, false);
+			}
+		}
 		player.update();
+		checkCollisions();    //檢查碰撞
 	}
 	
 	public void render(SpriteBatch batch) {
@@ -51,11 +59,41 @@ public class EntityManager {
 		return player;
 	}
 	
+	private void checkCollisions() {
+		for (Enemy1 e : getEnemies()) {
+			//System.out.println("Enemy posx:" +e.getBound().x +", Enemy posy:" +e.getBound().y+", Enemy width:" +e.getBound().getWidth()+", Enemy height:" +e.getBound().getHeight());
+			for (Bullet b : getBullet()) {
+				//System.out.println("Bullet posx:" +b.getBound().x +", Bullet posy:" +b.getBound().y+", Bullet width:" +b.getBound().getWidth()+", Bullet height:" +b.getBound().getHeight());
+				if (e.getBoundPerFrame().overlaps(b.getBoundPerFrame())) {
+					System.out.println("Check Collisions.");
+					entities.removeValue(e, false);
+					entities.removeValue(b, false);
+					if (gameOver()) {
+						//贏了，消滅了畫面上所有的敵人
+					}
+				}
+			}
+			if (e.getBoundPerFrame().overlaps(player.getBoundPerFrame())) {
+				//輸了，因為碰到敵人
+			}
+		}
+	}
+	
 	private Array<Enemy1> getEnemies() {
 		Array<Enemy1> ret = new Array<Enemy1>();
 		for (Entity e : entities) {
 			if (e instanceof Enemy1) {
 				ret.add((Enemy1)e);
+			}
+		}
+		return ret;
+	}
+	
+	private Array<Bullet> getBullet() {
+		Array<Bullet> ret = new Array<Bullet>();
+		for (Entity e : entities) {
+			if (e instanceof Bullet) {
+				ret.add((Bullet)e);
 			}
 		}
 		return ret;

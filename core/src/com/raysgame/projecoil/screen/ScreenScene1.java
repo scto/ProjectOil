@@ -1,6 +1,5 @@
 package com.raysgame.projecoil.screen;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.raysgame.projecoil.Assets;
@@ -26,7 +25,7 @@ public class ScreenScene1 extends Screen{
 		//System.out.println("graphics height: " +screenBounds.height);
 
 		entitymanager = new EntityManager(10);    //括弧數量 => 敵人數
-		SoundManager.bgm1.loop();    //播放BGM
+		SoundManager.bgm1.loop(0.5f);    //播放BGM
 	}
 
 	@Override

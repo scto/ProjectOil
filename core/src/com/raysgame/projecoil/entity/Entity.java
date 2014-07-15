@@ -59,6 +59,10 @@ public abstract class Entity {
     	spriteBatch.draw(current_frame, pos.x, pos.y);
     }
     
+    public Rectangle getBoundPerFrame() {
+    	return new Rectangle(pos.x, pos.y, texture.getWidth(), texture.getHeight());
+    }
+    
     public Rectangle getBound() {
     	return bound;
     }
