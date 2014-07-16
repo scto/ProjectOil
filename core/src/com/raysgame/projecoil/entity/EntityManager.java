@@ -5,7 +5,10 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.raysgame.projecoil.ProjectOil;
+import com.raysgame.projecoil.SoundManager;
 import com.raysgame.projecoil.TextureManager;
+import com.raysgame.projecoil.screen.ScreenGameOver;
+import com.raysgame.projecoil.screen.ScreenManager;
 
 public class EntityManager {
     //控制畫面上的實體
@@ -65,16 +68,19 @@ public class EntityManager {
 			for (Bullet b : getBullet()) {
 				//System.out.println("Bullet posx:" +b.getBound().x +", Bullet posy:" +b.getBound().y+", Bullet width:" +b.getBound().getWidth()+", Bullet height:" +b.getBound().getHeight());
 				if (e.getBoundPerFrame().overlaps(b.getBoundPerFrame())) {
-					System.out.println("Check Collisions.");
+					//System.out.println("Check Collisions.");
 					entities.removeValue(e, false);
 					entities.removeValue(b, false);
+					SoundManager.boom.play();    //爆炸聲
 					if (gameOver()) {
 						//贏了，消滅了畫面上所有的敵人
+						ScreenManager.setScreen(new ScreenGameOver(true));
 					}
 				}
 			}
 			if (e.getBoundPerFrame().overlaps(player.getBoundPerFrame())) {
 				//輸了，因為碰到敵人
+				ScreenManager.setScreen(new ScreenGameOver(false));
 			}
 		}
 	}
