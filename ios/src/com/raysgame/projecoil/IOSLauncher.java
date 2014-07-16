@@ -5,13 +5,13 @@ import org.robovm.apple.uikit.UIApplication;
 
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
-import com.raysgame.projecoil.Projectoil;
+import com.raysgame.projecoil.ProjectOil;
 
 public class IOSLauncher extends IOSApplication.Delegate {
     @Override
     protected IOSApplication createApplication() {
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
-        return new IOSApplication(new Projectoil(), config);
+        return new IOSApplication(new ProjectOil(), config);
     }
 
     public static void main(String[] argv) {
