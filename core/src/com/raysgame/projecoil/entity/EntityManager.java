@@ -14,9 +14,13 @@ public class EntityManager {
     //控制畫面上的實體
 	private final Array<Entity> entities = new Array<Entity>();
 	private Player player;
+	public int loopTimes;
 	
-	public EntityManager(int amount) {
+	public EntityManager() {
 		player = new Player(new Vector2(960 - 64, 540), new Vector2(0, 0), this);
+	}
+	
+	public void AddEnemies(int amount) {
 		for (int i=0; i<amount; i++) {
 			//為了讓怪物符合上下螢幕出現
 			float y = MathUtils.random(0, ProjectOil.CAMERA_HEIGHT - TextureManager.enemy1.getHeight());
@@ -105,7 +109,14 @@ public class EntityManager {
 		return ret;
 	}
 	
-	public boolean gameOver() {
+	public boolean clearScene() {
 		return getEnemies().size <= 0;
+	}
+	
+	public boolean gameOver() {
+		if ((getEnemies().size <= 0) && (loopTimes <= 0))
+		    return true;
+		else
+			return false;
 	}
 }

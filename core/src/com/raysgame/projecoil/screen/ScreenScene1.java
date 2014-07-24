@@ -11,6 +11,7 @@ public class ScreenScene1 extends Screen{
 	OrthographicCamera camera;
 	SpriteBatch batch;
     private EntityManager entitymanager;
+    private int loopTimes;
     
 	@Override
 	public void create() {
@@ -24,7 +25,9 @@ public class ScreenScene1 extends Screen{
 		//System.out.println("graphics Width: " +screenBounds.width);
 		//System.out.println("graphics height: " +screenBounds.height);
 
-		entitymanager = new EntityManager(10);    //括弧數量 => 敵人數
+		entitymanager = new EntityManager();
+		loopTimes = 2;
+		entitymanager.loopTimes = loopTimes;
 		SoundManager.bgm1.loop(0.5f);    //播放BGM
 	}
 
@@ -81,6 +84,11 @@ public class ScreenScene1 extends Screen{
 	public void update() {
 		camera.update();
 		entitymanager.update();
+		if (entitymanager.clearScene() && loopTimes > 0) {
+			entitymanager.AddEnemies(5);    //括弧數量 => 敵人數
+			entitymanager.loopTimes--;
+			loopTimes--;
+		}
 	}
 
 }
