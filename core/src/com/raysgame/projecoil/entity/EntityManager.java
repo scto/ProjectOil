@@ -76,6 +76,7 @@ public class EntityManager {
 					entities.removeValue(e, false);
 					entities.removeValue(b, false);
 					SoundManager.boom.play();    //爆炸聲
+					ProjectOil.score += Enemy1.score;
 					if (gameOver()) {
 						//贏了，消滅了畫面上所有的敵人
 						ScreenManager.setScreen(new ScreenGameOver(true));

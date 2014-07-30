@@ -11,6 +11,7 @@ public class ProjectOil implements ApplicationListener{
 	public static int CAMERA_WIDTH = 1920;
     public static int CAMERA_HEIGHT = 1080;
     private SpriteBatch batch;
+    public static int score = 0;
 	@Override
 	public void create() {
 		Assets.load();

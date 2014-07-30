@@ -1,6 +1,8 @@
 package com.raysgame.projecoil.screen;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.raysgame.projecoil.Assets;
 import com.raysgame.projecoil.ProjectOil;
@@ -10,8 +12,12 @@ import com.raysgame.projecoil.entity.EntityManager;
 public class ScreenScene1 extends Screen{
 	OrthographicCamera camera;
 	SpriteBatch batch;
+	private BitmapFont font, scoreFont;
     private EntityManager entitymanager;
     private int loopTimes;
+    private int[] enemyNumber;
+    private int temp = 0;
+    
     
 	@Override
 	public void create() {
@@ -24,10 +30,12 @@ public class ScreenScene1 extends Screen{
 		
 		//System.out.println("graphics Width: " +screenBounds.width);
 		//System.out.println("graphics height: " +screenBounds.height);
-
+        enemyNumber = new int[]{5,12,16,4};
 		entitymanager = new EntityManager();
-		loopTimes = 2;
+		loopTimes = 4;    //階段
 		entitymanager.loopTimes = loopTimes;
+		font = new BitmapFont();
+		scoreFont = new BitmapFont();
 		SoundManager.bgm1.loop(0.5f);    //播放BGM
 	}
 
@@ -38,8 +46,16 @@ public class ScreenScene1 extends Screen{
 		generalUpdate();    //控制移動
 		batch.begin();
 		//Rendering Code Here
+		font.setColor(Color.RED);
+		font.setScale(3, -3);    //-1,將字翻轉
+		String str = "There are "+(loopTimes+1)+" times to clear this stage";
+		scoreFont.setColor(Color.BLACK);
+		scoreFont.setScale(3, -3);
+		
 		batch.draw(Assets.spriteBackgound, 0, 0);
 		entitymanager.render(batch);
+		font.draw(batch, str, ProjectOil.CAMERA_WIDTH/2-350, 30);
+		scoreFont.draw(batch, String.valueOf(ProjectOil.score), 50, 30);
 		batch.end();
 	}
 	
@@ -85,7 +101,7 @@ public class ScreenScene1 extends Screen{
 		camera.update();
 		entitymanager.update();
 		if (entitymanager.clearScene() && loopTimes > 0) {
-			entitymanager.AddEnemies(5);    //括弧數量 => 敵人數
+			entitymanager.AddEnemies(enemyNumber[temp++]);    //括弧數量 => 敵人數
 			entitymanager.loopTimes--;
 			loopTimes--;
 		}

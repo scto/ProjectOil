@@ -6,6 +6,8 @@ import com.raysgame.projecoil.ProjectOil;
 import com.raysgame.projecoil.TextureManager;
 
 public class Enemy1 extends Entity{
+	
+	public static int score = 20;
 
 	public Enemy1(Vector2 pos, Vector2 direction) {
 		super(TextureManager.enemy1, pos, direction);
