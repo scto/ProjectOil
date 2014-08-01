@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ETC1;
 import com.raysgame.projecoil.Assets;
 import com.raysgame.projecoil.ProjectOil;
 import com.raysgame.projecoil.SoundManager;
@@ -36,7 +37,7 @@ public class ScreenScene1 extends Screen{
 		entitymanager.loopTimes = loopTimes;
 		font = new BitmapFont();
 		scoreFont = new BitmapFont();
-		SoundManager.bgm1.loop(0.5f);    //播放BGM
+		SoundManager.bgm1.loop(0.4f);    //播放BGM
 	}
 
 	@Override
@@ -61,6 +62,9 @@ public class ScreenScene1 extends Screen{
 	
 	public void generalUpdate() {
 		//牆壁
+		if (entitymanager.playerIsDead()) {
+			return;
+		}
 		if (entitymanager.getPlayer().getPosition().x < 0) {
 			//System.out.println("Left!!");
 			entitymanager.getPlayer().setDirection2(0, entitymanager.getPlayer().getPosition().y);

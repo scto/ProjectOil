@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.raysgame.projecoil.ProjectOil;
 import com.raysgame.projecoil.SoundManager;
 import com.raysgame.projecoil.TextureManager;
@@ -15,7 +17,7 @@ public class EntityManager {
 	private final Array<Entity> entities = new Array<Entity>();
 	private Player player;
 	public int loopTimes;
-	
+	private boolean isOver = false;
 	public EntityManager() {
 		player = new Player(new Vector2(960 - 64, 540), new Vector2(0, 0), this);
 	}
@@ -51,11 +53,18 @@ public class EntityManager {
 			if (e instanceof Bullet) {
 			    e.renderAnimation(batch);	
 			}
+			else if (e instanceof Boom) {
+				e.renderOnceAnimation(batch);
+		        if (e.animationIsStop()) { 
+		        	entities.removeValue(e, false);
+		        }
+			}
 			else {
 				e.render(batch);	
 			}
 		}
 		player.render(batch);
+		
 	}
 	
 	public void addEntity(Entity entity) {
@@ -73,8 +82,10 @@ public class EntityManager {
 				//System.out.println("Bullet posx:" +b.getBound().x +", Bullet posy:" +b.getBound().y+", Bullet width:" +b.getBound().getWidth()+", Bullet height:" +b.getBound().getHeight());
 				if (e.getBoundPerFrame().overlaps(b.getBoundPerFrame())) {
 					//System.out.println("Check Collisions.");
+					addEntity(new Boom(new Vector2(e.getBoundPerFrame().x, e.getBoundPerFrame().y)));
 					entities.removeValue(e, false);
 					entities.removeValue(b, false);
+					
 					SoundManager.boom.play();    //爆炸聲
 					ProjectOil.score += Enemy1.score;
 					if (gameOver()) {
@@ -83,11 +94,30 @@ public class EntityManager {
 					}
 				}
 			}
-			if (e.getBoundPerFrame().overlaps(player.getBoundPerFrame())) {
+			if (e.getBoundPerFrame().overlaps(player.getBoundPerFrame()) && !isOver) {
 				//輸了，因為碰到敵人
-				ScreenManager.setScreen(new ScreenGameOver(false));
+				isOver = true;
+				gameOverWait();
 			}
 		}
+	}
+	
+	private void gameOverWait() {
+		float delay = 3; //延遲秒數
+		addEntity(new Boom(new Vector2(player.getBoundPerFrame().x, player.getBoundPerFrame().y)));
+		player.pos.x = -10000;
+		SoundManager.boom.play();    //爆炸聲
+		
+		Timer.schedule(new Task(){
+		    @Override
+		    public void run() {
+		    	ScreenManager.setScreen(new ScreenGameOver(false));
+		    }
+		}, delay);
+	}
+	
+	public boolean playerIsDead() {
+		return isOver;
 	}
 	
 	private Array<Enemy1> getEnemies() {

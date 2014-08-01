@@ -19,6 +19,9 @@ public class Player extends Entity{
 	@Override
 	public void update() {
 		//pos.add(direction);    //似乎是移動用的
+		if (entityManager.playerIsDead()) {
+			return;
+		}
 		//移動判斷
 		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
 			pos.x -= speed;	

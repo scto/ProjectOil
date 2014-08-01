@@ -59,6 +59,16 @@ public abstract class Entity {
     	spriteBatch.draw(current_frame, pos.x, pos.y);
     }
     
+    public void renderOnceAnimation(SpriteBatch spriteBatch) { 
+    	stateTime += Gdx.graphics.getDeltaTime();
+    	current_frame = loading_animation.getKeyFrame(stateTime, false);
+    	spriteBatch.draw(current_frame, pos.x, pos.y);
+    }
+    
+    public boolean animationIsStop() {
+    	return loading_animation.isAnimationFinished(stateTime);
+    }
+    
     public Rectangle getBoundPerFrame() {
     	return new Rectangle(pos.x, pos.y, texture.getWidth(), texture.getHeight());
     }
@@ -90,10 +100,10 @@ public abstract class Entity {
     	int index = 0;
     	//System.out.println("totol_frame: " +total_frame +"\n sheet_frames:" +sheet_frames.length);
     	//col
-    	for(int i=0; i<row; i++) {
+    	for(int i=0; i<col; i++) {
     		//row
-    		for (int j=0; j<col; j++) {
-    			sheet_frames[index++] = temp[j][i];
+    		for (int j=0; j<row; j++) {
+    			sheet_frames[index++] = temp[i][j];
     		}
     	}
     	for (int i=0; i<index; i++) {

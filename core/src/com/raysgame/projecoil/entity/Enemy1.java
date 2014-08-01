@@ -25,5 +25,9 @@ public class Enemy1 extends Entity{
 			direction.set(-speed, 0);
 		}
 	}
+	
+	public void collision() {
+		
+	}
 
 }
