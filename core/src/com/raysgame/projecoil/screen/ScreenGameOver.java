@@ -1,9 +1,11 @@
 package com.raysgame.projecoil.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.raysgame.projecoil.ProjectOil;
@@ -14,6 +16,7 @@ public class ScreenGameOver extends Screen{
 	private OrthographicCamera camera;
 	private Texture texture;
 	private Sprite sprite;
+	private BitmapFont font;
 	
 	public ScreenGameOver(boolean playerWin) {
 		if (playerWin) {
@@ -22,6 +25,9 @@ public class ScreenGameOver extends Screen{
 		else {
 			texture = TextureManager.gameover_lost;
 		}
+		font = new BitmapFont();
+		font.setColor(Color.WHITE);
+		font.setScale(3, -3);
 		sprite = new Sprite(texture);
 		sprite.flip(false, true);
 	}
@@ -48,6 +54,7 @@ public class ScreenGameOver extends Screen{
 		sb.begin();
 		//出現在畫面中間
 		sb.draw(sprite, (ProjectOil.CAMERA_WIDTH/2)-(texture.getWidth()/2), (ProjectOil.CAMERA_HEIGHT/2)-(texture.getHeight()/2));
+		font.draw(sb, "Your score:" +String.valueOf(ProjectOil.score), (ProjectOil.CAMERA_WIDTH/2)-(texture.getWidth()/2) +250, (ProjectOil.CAMERA_HEIGHT/2)-(texture.getHeight()/2 + 400));
 		sb.end();
 	}
 

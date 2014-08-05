@@ -90,7 +90,13 @@ public class EntityManager {
 					ProjectOil.score += Enemy1.score;
 					if (gameOver()) {
 						//贏了，消滅了畫面上所有的敵人
-						ScreenManager.setScreen(new ScreenGameOver(true));
+						float delay = 2; //延遲秒數
+						Timer.schedule(new Task(){
+						    @Override
+						    public void run() {
+						    	ScreenManager.setScreen(new ScreenGameOver(true));
+						    }
+						}, delay);
 					}
 				}
 			}
@@ -103,7 +109,7 @@ public class EntityManager {
 	}
 	
 	private void gameOverWait() {
-		float delay = 3; //延遲秒數
+		float delay = 2; //延遲秒數
 		addEntity(new Boom(new Vector2(player.getBoundPerFrame().x, player.getBoundPerFrame().y)));
 		player.pos.x = -10000;
 		SoundManager.boom.play();    //爆炸聲
