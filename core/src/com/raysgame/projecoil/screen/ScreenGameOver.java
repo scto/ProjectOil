@@ -1,6 +1,7 @@
 package com.raysgame.projecoil.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.raysgame.projecoil.ProjectOil;
+import com.raysgame.projecoil.SoundManager;
 import com.raysgame.projecoil.TextureManager;
 
 public class ScreenGameOver extends Screen{
@@ -43,6 +45,11 @@ public class ScreenGameOver extends Screen{
 	@Override
 	public void update() {
 		camera.update();
+		if (Gdx.input.isKeyPressed(Keys.SPACE)) {
+			ProjectOil.score = 0;    //分數歸零
+			SoundManager.bgm1.stop();
+			ScreenManager.setScreen(new ScreenScene1());    //接關
+		}
 	}
 
 	@Override

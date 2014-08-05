@@ -30,9 +30,9 @@ public class ScreenScene1 extends Screen{
 		
 		//System.out.println("graphics Width: " +screenBounds.width);
 		//System.out.println("graphics height: " +screenBounds.height);
-        enemyNumber = new int[]{5,12,16,4};
+        enemyNumber = new int[]{5,12,16,4, 9};    //各階段敵人數
 		entitymanager = new EntityManager();
-		loopTimes = 4;    //階段
+		loopTimes = 5;    //階段
 		entitymanager.loopTimes = loopTimes;
 		font = new BitmapFont();
 		scoreFont = new BitmapFont();

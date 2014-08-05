@@ -13,5 +13,6 @@ public class TextureManager {
 	public static Texture gameover_win = new Texture(Gdx.files.internal("menu/gameover_screen_won.png"));
 	public static Texture gameover_lost = new Texture(Gdx.files.internal("menu/gameover_screen_lost.png"));
 	public static Texture boom = new Texture(Gdx.files.internal("data/boom.png"));
+	public static Texture enemyBullets = new Texture(Gdx.files.internal("data/enemy_bullets.png"));
 	
 }

@@ -2,20 +2,62 @@ package com.raysgame.projecoil.entity;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.raysgame.projecoil.ProjectOil;
 import com.raysgame.projecoil.TextureManager;
 
 public class Enemy1 extends Entity{
 	
 	public static int score = 20;
+	Player player;
+	EntityManager entityManager;
+	private long lastFire;
+	private boolean cooldown = true;
 
-	public Enemy1(Vector2 pos, Vector2 direction) {
+	public Enemy1(Vector2 pos, Vector2 direction, Player player, EntityManager entityManager) {
 		super(TextureManager.enemy1, pos, direction);
+		this.player = player;
+		this.entityManager = entityManager;
 	}
 
 	@Override
 	public void update() {
 		pos.add(direction);
+		//簡單的AI
+		/*
+		if (player.getPosition().x > pos.x) {
+			pos.x++;
+		}
+		else {
+			pos.x--;
+		}
+		if (player.getPosition().y > pos.y) {
+			pos.y++;
+		}
+		else {
+			pos.y--;
+		}*/
+		//發出子彈
+		if (!cooldown) {
+			int time = MathUtils.random(4000, 10000);
+			if (System.currentTimeMillis() - lastFire > time) {
+				//SoundManager.shoot.play();
+				int speed = MathUtils.random(10, 30);
+				entityManager.addEntity(new EnemyBullets(pos.cpy().add(0, (TextureManager.enemy1.getHeight()/2)), new Vector2(-speed, 0)));
+				lastFire = System.currentTimeMillis();
+			}
+		}
+		else {
+			float delay = 4; //延遲秒數
+			Timer.schedule(new Task(){
+			    @Override
+			    public void run() {
+			    	cooldown = false;
+			    }
+			}, delay);
+		}
+	    
 		
 		//將移動到後方的敵人重新出現在玩家前方
 		if (pos.x < -TextureManager.enemy1.getWidth()) {

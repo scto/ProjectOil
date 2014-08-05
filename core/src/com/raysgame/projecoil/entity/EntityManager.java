@@ -29,7 +29,7 @@ public class EntityManager {
 			//為了讓怪物出現在螢幕後面
 			float x = MathUtils.random(ProjectOil.CAMERA_WIDTH+(ProjectOil.CAMERA_WIDTH/2) , ProjectOil.CAMERA_HEIGHT * 3);
 			float speed = MathUtils.random(2, 6);
-			addEntity(new Enemy1(new Vector2(x, y), new Vector2(-speed, 0)));    //向左移動
+			addEntity(new Enemy1(new Vector2(x, y), new Vector2(-speed, 0), player, this));    //向左移動
 		}
 	}
 	
@@ -39,6 +39,13 @@ public class EntityManager {
 		}
 		//子彈到盡頭檢查
 		for (Bullet b : getBullet()) {
+			if (b.checkEnd()) {
+				//System.out.println("Bullet End");
+				entities.removeValue(b, false);
+			}
+		}
+		//敵人子彈到盡頭檢查
+		for (EnemyBullets b : getEnemyBullet()) {
 			if (b.checkEnd()) {
 				//System.out.println("Bullet End");
 				entities.removeValue(b, false);
@@ -76,6 +83,7 @@ public class EntityManager {
 	}
 	
 	private void checkCollisions() {
+		// 子彈與敵人碰撞
 		for (Enemy1 e : getEnemies()) {
 			//System.out.println("Enemy posx:" +e.getBound().x +", Enemy posy:" +e.getBound().y+", Enemy width:" +e.getBound().getWidth()+", Enemy height:" +e.getBound().getHeight());
 			for (Bullet b : getBullet()) {
@@ -100,6 +108,15 @@ public class EntityManager {
 					}
 				}
 			}
+			//被敵人的子彈碰到
+			for (EnemyBullets b : getEnemyBullet()) {
+				if (player.getBoundPerFrame().overlaps(b.getBoundPerFrame()) && !isOver) {
+					//輸了
+					isOver = true;
+					gameOverWait();
+				}
+			}
+			//敵人與本身碰撞
 			if (e.getBoundPerFrame().overlaps(player.getBoundPerFrame()) && !isOver) {
 				//輸了，因為碰到敵人
 				isOver = true;
@@ -141,6 +158,16 @@ public class EntityManager {
 		for (Entity e : entities) {
 			if (e instanceof Bullet) {
 				ret.add((Bullet)e);
+			}
+		}
+		return ret;
+	}
+	
+	private Array<EnemyBullets> getEnemyBullet() {
+		Array<EnemyBullets> ret = new Array<EnemyBullets>();
+		for (Entity e : entities) {
+			if (e instanceof EnemyBullets) {
+				ret.add((EnemyBullets)e);
 			}
 		}
 		return ret;
