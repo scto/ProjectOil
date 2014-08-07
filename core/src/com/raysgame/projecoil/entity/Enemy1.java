@@ -44,7 +44,43 @@ public class Enemy1 extends Entity{
 			if (System.currentTimeMillis() - lastFire > time) {
 				//SoundManager.shoot.play();
 				int speed = MathUtils.random(10, 30);
-				entityManager.addEntity(new EnemyBullets(pos.cpy().add(0, (TextureManager.enemy1.getHeight()/2)), new Vector2(-speed, 0)));
+			    float y_diff = player.getBoundPerFrame().y - pos.y;
+			    int y_shift = 0;
+				//System.out.println("Position temp: " +(player.getBoundPerFrame().y - pos.y));
+			    if (y_diff > 100) {
+			    	y_shift = 2;
+			    }
+			    else if (y_diff > 200) {
+			    	y_shift = 3;
+			    }
+			    else if (y_diff >400) {
+			    	y_shift = 5;
+			    }
+			    else if (y_diff > 600) {
+			    	y_shift = 9;
+			    }
+			    else if (y_diff > 700) {
+					y_shift = 11;
+				}
+			    else if (y_diff <= -50) {
+					y_shift = -1;
+				}
+			    else if (y_diff <= -100) {
+					y_shift = -2;
+				}
+			    else if (y_diff <= -200) {
+					y_shift = -3;
+				}
+			    else if (y_diff <= -400) {
+			    	y_shift = -5;
+			    }
+			    else if (y_diff <= -600) {
+			    	y_shift = -9;
+			    }
+			    else if (y_diff <= -700) {
+					y_shift = -11;
+				}
+				entityManager.addEntity(new EnemyBullets(pos.cpy().add(0, (TextureManager.enemy1.getHeight()/2)), new Vector2(-speed, y_shift)));
 				lastFire = System.currentTimeMillis();
 			}
 		}
