@@ -37,7 +37,7 @@ public class Player extends Entity{
 		} 
 		
 		if (Gdx.input.isKeyPressed(Keys.SPACE)) {
-			if (System.currentTimeMillis() - lastFire > 250) {
+			if (System.currentTimeMillis() - lastFire > 250 && !entityManager.bulletLock()) {
 				SoundManager.shoot.play();
 				entityManager.addEntity(new Bullet(pos.cpy().add((TextureManager.textureAirPlane.getWidth()), (TextureManager.textureAirPlane.getHeight()/2))));
 				lastFire = System.currentTimeMillis();

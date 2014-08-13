@@ -163,6 +163,13 @@ public class EntityManager {
 		return ret;
 	}
 	
+	public boolean bulletLock() {
+		if (getBullet().size >= 3)
+			return true;
+		else
+			return false;
+	}
+	
 	private Array<EnemyBullets> getEnemyBullet() {
 		Array<EnemyBullets> ret = new Array<EnemyBullets>();
 		for (Entity e : entities) {
