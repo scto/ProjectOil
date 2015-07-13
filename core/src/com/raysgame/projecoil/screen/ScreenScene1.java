@@ -47,10 +47,10 @@ public class ScreenScene1 extends Screen{
 		batch.begin();
 		//Rendering Code Here
 		font.setColor(Color.RED);
-		font.setScale(3, -3);    //-1,將字翻轉
+		font.getData().setScale(3, -3);    //-1,將字翻轉
 		String str = "There are "+(loopTimes+1)+" times to clear this stage";
 		scoreFont.setColor(Color.BLACK);
-		scoreFont.setScale(3, -3);
+		scoreFont.getData().setScale(3, -3);
 		
 		batch.draw(Assets.spriteBackgound, 0, 0);
 		entitymanager.render(batch);

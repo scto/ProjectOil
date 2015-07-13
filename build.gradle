@@ -2,11 +2,11 @@ buildscript {
     repositories {
         mavenCentral()
         mavenLocal()
-        maven { url 'https://github.com/steffenschaefer/gwt-gradle-plugin/raw/maven-repo/' }
+        maven { url 'http://dl.bintray.com/steffenschaefer/maven' }
     }
     dependencies {
-        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.4'
-        classpath 'com.android.tools.build:gradle:0.10+'
+        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
+        classpath 'com.android.tools.build:gradle:1.1+'
         classpath 'com.github.jtakakura:gradle-robovm-plugin:0.0.9'
     }
 }
@@ -18,7 +18,7 @@ allprojects {
     version = '1.0'
     ext {
         appName = 'Projectoil'
-        gdxVersion = '1.3.1'
+        gdxVersion = '1.6.4'
         roboVMVersion = '0.0.13'
     }
 

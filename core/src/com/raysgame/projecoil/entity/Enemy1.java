@@ -2,8 +2,6 @@ package com.raysgame.projecoil.entity;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.Timer.Task;
 import com.raysgame.projecoil.ProjectOil;
 import com.raysgame.projecoil.TextureManager;
 
@@ -85,13 +83,9 @@ public class Enemy1 extends Entity{
 			}
 		}
 		else {
-			float delay = 4; //延遲秒數
-			Timer.schedule(new Task(){
-			    @Override
-			    public void run() {
-			    	cooldown = false;
-			    }
-			}, delay);
+			if (pos.x < ProjectOil.CAMERA_WIDTH - TextureManager.enemy1.getWidth()) {
+				cooldown = false;
+			}
 		}
 	    
 		
